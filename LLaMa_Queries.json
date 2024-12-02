@@ -1,0 +1,72 @@
+[
+    {
+        "Id": "3",
+        "Text": {
+            "role": "assistant",
+            "content": "Here's a query that can be answered with the passage:\n\n\"What kind of trips does Adventure travel company offer in the region?\""
+        }
+    },
+    {
+        "Id": "12",
+        "Text": {
+            "role": "assistant",
+            "content": "Here's a query that can be answered with the given passage:\n\n\"What are the different ways to visit Antarctica, and what are the advantages and disadvantages of each option?\""
+        }
+    },
+    {
+        "Id": "17",
+        "Text": {
+            "role": "assistant",
+            "content": "Here's a query that could be answered with the given passage:\n\n\"What is the recommended debit card for minimizing foreign transaction fees in the UK, and what are some general tips for managing finances while traveling abroad?\"\n\nThis query captures the main points of the passage, including the specific card mentioned (Halifax Clarity Card), the issue of foreign transaction fees, and the general advice for managing finances while traveling."
+        }
+    },
+    {
+        "Id": "18",
+        "Text": {
+            "role": "assistant",
+            "content": "Here's a query that could be answered with the given passage:\n\n\"What are the benefits of using a visa debit card?\""
+        }
+    },
+    {
+        "Id": "19",
+        "Text": {
+            "role": "assistant",
+            "content": "Here's a query that can be answered with the passage:\n\n\"What other European train network might be useful for a trip that involves stops on the eastern side of Europe, in addition to EURail?\""
+        }
+    },
+    {
+        "Id": "20",
+        "Text": {
+            "role": "assistant",
+            "content": "Here's a query that can be answered with the passage:\n\n\"What is the best online resource for getting information on international rail travel routes, prices, and schedules?\"\n\nAnswer: The Seat 61 website is an absolute definitive guide to international rail travel, providing information on routes, prices, and schedules, as well as links to places where you can buy tickets."
+        }
+    },
+    {
+        "Id": "22",
+        "Text": {
+            "role": "assistant",
+            "content": "SELECT * FROM travel_passages WHERE website = \"seat61.com\" AND recommendation = \"well-written\" AND comprehensive = TRUE AND helpful_for = \"booking\" AND user_decision = \"using\" AND time_needed = \"some\"."
+        }
+    },
+    {
+        "Id": "23",
+        "Text": {
+            "role": "assistant",
+            "content": "Here's a query that can be answered with the given passage:\n\n\"What should I be aware of when traveling to a foreign country?\""
+        }
+    },
+    {
+        "Id": "24",
+        "Text": {
+            "role": "assistant",
+            "content": "Here's a query that can be answered with the given passage:\n\n\"What are some safe and convenient methods for travelers to access money while abroad, and what fees are associated with each method?\""
+        }
+    },
+    {
+        "Id": "29",
+        "Text": {
+            "role": "assistant",
+            "content": "Here's a query that can be answered with the given passage:\n\n\"What benefits does Vodafone's Passport offer for UK customers when making calls within Europe?\""
+        }
+    }
+]
