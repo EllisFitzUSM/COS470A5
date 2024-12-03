@@ -47,10 +47,23 @@ def main():
 		beir_process.join()
 		llama_process.join()
 
+		merged_dict = {**msmarco_dict,**beir_dict,**llama_dict}
+		with open('AllQueries.json', 'w', encoding='utf-8') as f:
+			json.dump(merged_dict, f, indent=4)
 
 	except KeyboardInterrupt:
 		sys.exit()
 
+# def merge_dicts(dicts):
+# 	merged = {}
+# 	for dict in dicts:
+# 		for k, v in dict.items():
+# 			if k not in merged:
+# 				merged[k] = v
+# 			else:
+# 				merged[k] = merged[k] + v
+#
+# 			for
 def read_answers(answer_filepath):
 	answer_list = json.load(open(answer_filepath, 'r', encoding='utf-8'))
 	answer_dict = {}
