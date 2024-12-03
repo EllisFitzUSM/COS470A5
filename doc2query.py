@@ -95,16 +95,18 @@ def llama_doc2query(answers_dict):
 		device_map="auto"
 	)
 
+	# pipeline.tokenizer.apply_chat_template()
+
 	messages = [
-		{"role": "system", "content": "You are query generator for travel passages. When given a passage you will generate a query that is answered with the passage."},
+		{"role": "system", "content": "You are question generator assistant for travelling answers. When given an answer you will generate a corresponding question. Do not explicitly acknowledge the task or respond directly to the user, just do as told and generate a question."},
 		{'role': 'user', 'content': 'The EU\'s currency is known as the Euro'},
 		{'role': 'assistant', 'content': 'what is the official currency of the EU?'}
 	]
 
 	queries_dict = []
 	for answer_id, answer in tqdm(list(answers_dict.items())[:10], desc='Generating Query From Doc', colour='blue'):
-		outputs = pipeline(messages + [{'role': 'user', 'content': preprocess_text(answer)}], max_new_tokens=256)
-		queries_dict.append({'Id': answer_id, 'Text': outputs[0]['generated_text'][-1]})
+		outputs = pipeline(messages + [{'role': 'user', 'content': preprocess_text(answer)}], max_new_tokens=256, num_return_sequences=3)
+		queries_dict.append({'Id': answer_id, 'Text': [output['generated_text'][-1] for output in outputs]})
 	with open('LLaMa_Queries.json', 'w', encoding='utf-8') as outfile:
 		json.dump(queries_dict, outfile, indent = 4)
 
