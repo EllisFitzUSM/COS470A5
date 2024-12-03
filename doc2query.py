@@ -13,6 +13,7 @@ import multiprocessing as mp
 import sys
 import string
 import os
+from huggingface_hub import login
 
 try:
     stopwords = stopwords.words('english')
@@ -21,6 +22,7 @@ except:
     stopwords = stopwords.words('english')
 
 os.environ['TRANSFORMERS_CACHE'] = '/mnt/netstore1_home/'
+login()
 
 def main():
 	argparser = ap.ArgumentParser()
