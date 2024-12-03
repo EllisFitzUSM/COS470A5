@@ -12,6 +12,7 @@ import nltk
 import multiprocessing as mp
 import sys
 import string
+import os
 
 try:
     stopwords = stopwords.words('english')
@@ -19,6 +20,7 @@ except:
     nltk.download('stopwords')
     stopwords = stopwords.words('english')
 
+os.environ['TRANSFORMERS_CACHE'] = '/mnt/netstore1_home/'
 
 def main():
 	argparser = ap.ArgumentParser()
@@ -92,7 +94,9 @@ def llama_doc2query(answers_dict):
 	)
 
 	messages = [
-		{"role": "system", "content": "You are query generator for travel passages. When given a passage you will generate a query that is answered with the passage."}
+		{"role": "system", "content": "You are query generator for travel passages. When given a passage you will generate a query that is answered with the passage."},
+		{'role': 'user', 'content': 'The EU\'s currency is known as the Euro'},
+		{'role': 'assistant', 'content': 'what is the official currency of the EU?'}
 	]
 
 	queries_dict = []
