@@ -22,7 +22,7 @@ except:
     stopwords = stopwords.words('english')
 
 os.environ['TRANSFORMERS_CACHE'] = '/mnt/netstore1_home/'
-# os.environ['HF_HOME'] = '/mnt/netstore1_home/' # Preferred
+# os.environ['HF_HOME'] = '/mnt/netstore1_home/' # TODO: Preferred
 login()
 
 def main():
@@ -35,6 +35,7 @@ def main():
 	msmarco_dict = []
 	beir_dict = []
 	llama_dict = []
+	# Do all query-generation at the same time.
 	try:
 		msmarco_process = mp.Process(target=msmarco_doc2query, args=(answers_dict,msmarco_dict))
 		beir_process = mp.Process(target=beir_doc2query, args=(answers_dict,beir_dict))
@@ -51,24 +52,14 @@ def main():
 		merged_dict = {**msmarco_dict,**beir_dict,**llama_dict}
 		with open('AllQueries.json', 'w', encoding='utf-8') as f:
 			json.dump(merged_dict, f, indent=4)
-
 	except KeyboardInterrupt:
 		sys.exit()
 
-# def merge_dicts(dicts):
-# 	merged = {}
-# 	for dict in dicts:
-# 		for k, v in dict.items():
-# 			if k not in merged:
-# 				merged[k] = v
-# 			else:
-# 				merged[k] = merged[k] + v
-#
-# 			for
 def read_answers(answer_filepath):
 	answer_list = json.load(open(answer_filepath, 'r', encoding='utf-8'))
 	answer_dict = {}
 	for answer in tqdm(answer_list, desc='Reading Answer Collection...', colour='yellow'):
+		# TODO: why no use preprocess_text?
 		# answer_dict[answer['Id']] = preprocess_text(answer['Text'])
 		answer_dict[answer['Id']] = answer['Text']
 	return answer_dict
@@ -100,32 +91,28 @@ def beir_doc2query(answers_dict, beir_dict):
 		json.dump(beir_dict, outfile, indent = 4)
 
 def llama_doc2query(answers_dict, llama_dict):
-
 	model_name = "meta-llama/Meta-Llama-3.1-8B-Instruct"
-
+	# TODO: This has a warning about sequential use, slowing down efficiency.
 	pipeline = transformers.pipeline(
 		"text-generation",
 		model=model_name,
 		model_kwargs={"torch_dtype": torch.bfloat16},
 		device_map="auto"
 	)
-
 	pipeline.model.generation_config.pad_token_id = pipeline.model.generation_config.eos_token_id
-
 	messages = [
 		{"role": "system", "content": "You are question generator assistant for travelling answers. When given an answer you will generate a corresponding question. Do not explicitly acknowledge the task or respond directly to the user, just do as told and generate a question."},
 		# {'role': 'user', 'content': 'The EU\'s currency is known as the Euro'},
 		# {'role': 'assistant', 'content': 'what is the official currency of the EU?'}
+		# These examples used for few-show was a regenerated query and answer pair from ChatGPT
 		{'role': 'user', 'content': "Practices regarding complimentary tap water in Europe vary widely, with no universal custom. While free water isn’t exclusive to Finland or Scandinavia, laws and traditions differ by country. some places, serving tap water is required by law, such as the UK (for premises serving alcohol), France (where pitchers are often provided automatically with meals), Hungary, and Spain. In Finland, Norway, Sweden, Denmark, and Slovenia, free water is very common. In countries like Switzerland, free tap water is offered inconsistently, while in the Netherlands, Germany, Luxembourg, Italy, and Belgium, it’s less common, and patrons typically order paid drinks. Some restaurants in these regions may refuse or appear surprised if asked for free water. Even in countries where laws mandate free tap water, exceptions occur, such as in mountain lodges or upscale venues. High-end restaurants may expect customers to purchase drinks, sometimes offering filtered or carbonated water as a paid alternative. Lastly, in places like Austria, France, and Italy, serving a glass of water alongside coffee is customary and generally well-accepted."},
 		{'role': 'assistant', 'content': "How frequently do restaurants in Europe provide complimentary drinking water upon request? When I visited Helsinki, I noticed restaurants often provided free water with orders. This included places like McDonald’s, where my friend requested tap water, and it was served without charge. Some restaurants even encouraged this practice, offering water refill stations with clean glasses or placing glass jugs of water near the soft drink area for self-service. I haven’t observed this elsewhere in Europe, though my travels are limited. Is free water for customers a common practice across Europe, or is it specific to Finland or Scandinavia?"}
 	]
-
 	for answer_id, answer in tqdm(list(answers_dict.items()), desc='Generating LLaMa Query From Doc', colour='blue'):
 		outputs = pipeline(messages + [{'role': 'user', 'content': preprocess_text(answer)}], max_new_tokens=256, num_return_sequences=3)
 		llama_dict.append({'Id': answer_id, 'Text': [output['generated_text'][-1] for output in outputs]})
 	with open('LLaMa_Queries.json', 'w', encoding='utf-8') as outfile:
 		json.dump(llama_dict, outfile, indent = 4)
-
 
 def preprocess_text(text_string):
 	res_str = bs(text_string, "html.parser").get_text(separator=' ')
