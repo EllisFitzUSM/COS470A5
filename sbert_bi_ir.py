@@ -77,8 +77,8 @@ class SBertBI(object):
 		return topic_answer_rankings
 
 	def fine_tune(self, save_path, train_qrel, eval_qrel, test_qrel, topics, answers, epochs:int = 1, batch_size:int = 32):
-		train_dataset = self.format_dataset(train_qrel, answers, topics)
-		eval_dataset = self.format_dataset(eval_qrel, answers, topics)
+		train_dataset = self.msmarco_dataset(train_qrel, answers, topics)
+		eval_dataset = self.msmarco_dataset(eval_qrel, answers, topics)
 		loss_fn = losses.CoSENTLoss(model=self.model) # This said on the website that it was a more incoming function that was promising https://www.sbert.net/docs/package_reference/sentence_transformer/losses.html#sentence_transformers.losses.CoSENTLoss
 		self.model.to(self.device)
 		args = SentenceTransformerTrainingArguments(

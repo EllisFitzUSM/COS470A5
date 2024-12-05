@@ -106,7 +106,7 @@ def llama_doc2query(answers_dict, llama_dict):
 	for answer_id, answer in tqdm(list(answers_dict.items()), desc='Generating LLaMa Query From Doc', colour='blue'):
 		outputs = pipeline(messages + [{'role': 'user', 'content': util.preprocess_text(answer)}], max_new_tokens=256, num_return_sequences=3)
 		llama_dict.append({'Id': answer_id, 'Text': [output['generated_text'][-1] for output in outputs]})
-	with open('LLaMa_Queries.json', 'w', encoding='utf-8') as outfile:
+	with open('collections/LLaMa_Queries.json', 'w', encoding='utf-8') as outfile:
 		json.dump(llama_dict, outfile, indent = 4)
 
 if __name__ == '__main__':

@@ -34,7 +34,7 @@ def rank_queries(answer_dict, query_dict):
 		generated_queries = query_dict[answer_id]
 		best = cross_encoder_model.get_best(answer, generated_queries)
 		best_query_list.append({'Id': answer_id, 'Text': best})
-	with open('BestQueries.json', 'w') as outfile:
+	with open('collections/BestQueries.json', 'w') as outfile:
 		json.dump(best_query_list, outfile, indent=4)
 
 if __name__ == '__main__':
