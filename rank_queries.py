@@ -33,13 +33,9 @@ def rank_queries(answer_dict, query_dict):
 	for answer_id, answer in tqdm(answer_dict.items(), desc='Ranking Generated Queries'):
 		generated_queries = query_dict[answer_id]
 		best = cross_encoder_model.get_best(answer, generated_queries)
-		# new_query_dict[answer_id] = best
 		best_query_list.append({'Id': answer_id, 'Text': best})
 	with open('BestQueries.json', 'w') as outfile:
 		json.dump(best_query_list, outfile, indent=4)
-
-
-
 
 if __name__ == '__main__':
 	main()
