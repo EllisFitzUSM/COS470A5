@@ -54,8 +54,10 @@ def llama_query2doc(topics_dict, llama_dict):
         {'role': 'assistant', 'content': "Practices regarding complimentary tap water in Europe vary widely, with no universal custom. While free water isn’t exclusive to Finland or Scandinavia, laws and traditions differ by country. some places, serving tap water is required by law, such as the UK (for premises serving alcohol), France (where pitchers are often provided automatically with meals), Hungary, and Spain. In Finland, Norway, Sweden, Denmark, and Slovenia, free water is very common. In countries like Switzerland, free tap water is offered inconsistently, while in the Netherlands, Germany, Luxembourg, Italy, and Belgium, it’s less common, and patrons typically order paid drinks. Some restaurants in these regions may refuse or appear surprised if asked for free water. Even in countries where laws mandate free tap water, exceptions occur, such as in mountain lodges or upscale venues. High-end restaurants may expect customers to purchase drinks, sometimes offering filtered or carbonated water as a paid alternative. Lastly, in places like Austria, France, and Italy, serving a glass of water alongside coffee is customary and generally well-accepted."}
 	]
 	for topic_id, topic in tqdm(list(topics_dict.items()), desc='Generating LLaMa Answer From Query', colour='blue'):
+		prompt = messages + [{'role': 'user', 'content': str(topic)}]
 		prompt = pipeline.tokenizer.apply_chat_template(messages + [{'role': 'user', 'content': str(topic)}],
 														add_generation_prompt=True, tokenize=True)
+		print(prompt)
 		print(type(prompt).__name__)
 		outputs = pipeline(prompt, max_new_tokens=512, num_return_sequences=1)
 		llama_dict.append({'Id': topic_id, 'Text': outputs[0]['generated_text'][-1]})
