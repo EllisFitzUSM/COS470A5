@@ -12,11 +12,15 @@ index_path = r'./pt_index'
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('gen_queries', help='Generated Queries (representing document collection).')
-    parser.add_argument('topics', help='Topics (representing OG queries).')
+    parser.add_argument('topics', help='Topics (representing OG queries).', nargs='+')
     args = parser.parse_args()
 
     index: pt.IndexFactory.of = pt.IndexFactory.of(get_bm25_index(args.gen_queries))
     print(index.getCollectionStastics().toString())
+
+    for index, topic_path in enumerate(args.topics):
+        topic_df = topic_file_to_dataframe(topic_path, includes=['Title'])
+        bm25_retrieval(index, topic_df, index + 1)
 
 def topic_file_to_dataframe(topic_path, includes = ['Title', 'Body', 'Tags']):
     topics = json.load(open(topic_path, 'r', encoding='utf-8'))                                          # Parse JSON into Dict
@@ -42,8 +46,7 @@ def get_bm25_index(gen_queries_path):
         pt_indexer.index(docs_df[['text', 'docno']].to_dict(orient='records'))
     return os.path.join(index_abs_path, 'data.properties')
 
-def bm25_retrieval(index_ref, topics_df, topic_number) -> None:
-    index: pt.IndexFactory.of = pt.IndexFactory.of(index_ref)
+def bm25_retrieval(index, topics_df, topic_number):
     bm25: pt.terrier.Retriever = pt.terrier.Retriever(index, num_results=100, wmodel='BM25')
     # metaindex = index.getMetaIndex()
     bm25_result: pd.DataFrame = bm25.transform(topics_df)
