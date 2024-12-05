@@ -30,7 +30,7 @@ def main():
         topic_df = topic_file_to_dataframe(topic_path)
         bm25_retrieval(index_ref, topic_df, index + 1)
 
-        topics_dict = util.read_topics(topic_path)
+        topics_dict = util.read_topics(topic_path) # TODO: ! THIS NEEDS TO PREPROCESS TEXT
         bi_results = bi.retrieve_rank(topics_dict, gen_query_dict)
         bi_run = Run.from_dict(bi_results, kind='trec')
         bi_run.save(f'res_BiEncoder_{index + 1}.tsv', kind='trec')

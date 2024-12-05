@@ -28,7 +28,7 @@ def read_topics(topic_path, includes = ['Title', 'Body', 'Tags']):
 	topic_list = json.load(open(topic_path, 'r', encoding='utf-8'))
 	topic_dict = {}
 	for topic in tqdm(topic_list, desc='Reading Topic Collection...', colour='blue'):
-		topic_dict[topic['Id']] = ' '.join(preprocess_text([topic[include] for include in includes]))
+		topic_dict[topic['Id']] = ' '.join([topic[include] for include in includes])
 	return topic_dict
 
 def preprocess_text(text_string):
