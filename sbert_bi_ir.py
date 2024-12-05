@@ -35,11 +35,10 @@ class SBertBI(object):
 			self.model.default_prompt_name = prompt_name # ??
 		except:
 			pass
-		match similarity_fn:
-			case 'cos':
-				self.model.similarity_fn_name = SimilarityFunction.COSINE
-			case 'dot':
-				self.model.similarity_fn_name = SimilarityFunction.DOT_PRODUCT
+		if similarity_fn == 'cos':
+			self.model.similarity_fn_name = SimilarityFunction.COSINE
+		elif similarity_fn == 'dot':
+			self.model.similarity_fn_name = SimilarityFunction.DOT_PRODUCT
 
 	def encode_id_text(self, id_text):
 		pool = self.model.start_multi_process_pool()
