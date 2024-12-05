@@ -41,6 +41,12 @@ class SBertCE(object):
 			rerank_dict[topic_id] = OrderedDict(sorted(rerank_dict[topic_id].items(), key=lambda t: t[1], reverse=True))
 		return rerank_dict
 
+	def get_best(self, query, corpa):
+		query_corpa_pairings = [[query, doc] for doc in corpa]
+		scores = self.model.predict(query_corpa_pairings, batch_size=32, show_progress_bar=True)
+		score, index = torch.topk(scores, k=1)
+		return corpa[index]
+
 	def fine_tune(self, save_path, train_qrel, eval_qrel, test_qrel, topics, answers, epochs: int = 4, batch_size: int = 32):
 		train_samples=self.format_inputexamples(train_qrel, answers, topics)
 		train_dataloader=DataLoader(train_samples,batch_size=batch_size)
@@ -82,7 +88,7 @@ class SBertCE(object):
 			samples.append({'query': topics[topic_id], 'positive': list(positive_set), 'negative': list(negative_set)})
 		return samples
 
-	def format_inputexamples(self, qrel, answers, topics):
+	def msmarco_inputexamples(self, qrel, answers, topics):
 		qrel_dict = qrel.to_dict()
 		input_examples = []
 		# Add our retrieved results

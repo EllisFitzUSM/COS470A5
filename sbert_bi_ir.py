@@ -58,7 +58,7 @@ class SBertBI(object):
 		corpa_embeddings = self.encode(corpa)
 		similarity_scores = self.model.similarity(base_embedding, corpa_embeddings)
 		score, index = torch.topk(similarity_scores, k=1)
-		return score, index
+		return corpa[index]
 
 	def retrieve_rank(self, topics, answers):
 		topic_embeddings = self.encode_id_text(topics)
@@ -151,7 +151,7 @@ class SBertBI(object):
 		predictions = np.argmax(logits, axis=1)
 		return metric.compute(predictions=predictions, references=labels)
 
-	def format_dataset(self, qrel, answers, topics):
+	def msmarco_dataset(self, qrel, answers, topics):
 		qrel_dict = qrel.to_dict()
 		triplets = []
 		for topic_id, answer_scores in qrel_dict.items():

@@ -2,6 +2,7 @@ import argparse as ap
 import json
 from tqdm import tqdm
 from util import read_answers
+from sbert_ce_ir import SBertCE
 
 def main():
 	parser = ap.ArgumentParser()
@@ -23,7 +24,15 @@ def read_queries(query_path):
 	return query_dict
 
 def rank_queries(answer_dict, query_dict):
-	pass
+	device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+	cross_encoder_model = SBertCE('cross-encoder/ms-marco-MiniLM-L-6-v2', device=device)
+	new_query_dict = {}
+	for answer_id, answer in answer_dict.items():
+		generated_queries = [query['content'] for query in query_dict[answer_id]['Text']]
+		best = cross_encoder_model.get_best(answer, generated_queries)
+		new_query_dict[answer_id] = best
+	with open('BestQueries.json', 'w') as outfile:
+		json.dump(new_query_dict, outfile, indent=4)
 
 
 
