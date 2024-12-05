@@ -23,7 +23,7 @@ class SBertCE(object):
 			else:
 				raise Exception('Model name does not exist, and neither does the local path provided')
 
-	def retrieve_rerank(self, run: str | dict | Run, topics, answers):
+	def retrieve_rerank(self, run, topics, answers):
 		if isinstance(run, str):
 			run = Run.from_file(run, kind='trec', name=run.split('.')[0]).to_dict()
 		elif isinstance(run, Run):
