@@ -46,6 +46,7 @@ class SBertCE(object):
 		query_corpa_pairings = [[query, doc] for doc in corpa]
 		scores = self.model.predict(query_corpa_pairings, batch_size=32, show_progress_bar=False, convert_to_tensor=True)
 		score, index = torch.topk(scores, k=1)
+		print(f'{scores} Best: {score}')
 		return corpa[index]
 
 	def fine_tune(self, save_path, train_qrel, eval_qrel, test_qrel, topics, answers, epochs: int = 4, batch_size: int = 32):
