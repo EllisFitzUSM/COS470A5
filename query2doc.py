@@ -55,7 +55,7 @@ def llama_query2doc(topics_dict, llama_dict):
 	]
 	for topic_id, topic in tqdm(list(topics_dict.items()), desc='Generating LLaMa Answer From Query', colour='blue'):
 		prompt = messages + [{'role': 'user', 'content': str(topic)}]
-		prompt = pipeline.tokenizer.apply_chat_template(prompt,
+		prompt = pipeline.tokenizer.apply_chat_template(prompt, tokenize=False,
 														add_generation_prompt=True)
 		print(prompt)
 		outputs = pipeline(prompt, max_new_tokens=512, num_return_sequences=1)
