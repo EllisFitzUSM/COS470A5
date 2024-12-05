@@ -1,7 +1,7 @@
 from nltk.corpus import stopwords
 import nltk
 import json
-import tqdm
+from tqdm import tqdm
 
 try:
     stopwords = stopwords.words('english')

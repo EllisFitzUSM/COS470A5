@@ -3,6 +3,8 @@ import json
 from tqdm import tqdm
 from util import read_answers
 from sbert_ce_ir import SBertCE
+import torch
+
 
 def main():
 	parser = ap.ArgumentParser()
@@ -19,8 +21,8 @@ def main():
 def read_queries(query_path):
 	query_list = json.load(open(query_path, 'r', encoding='utf-8'))
 	query_dict = {}
-	for query in tqdm(query_list, desc='Reading Query Collection...', colour='red'):
-		query_dict[query['Id']] = query['Text']
+	for query_triple in tqdm(query_list, desc='Reading Query Collection...', colour='red'):
+		query_dict[query_triple['Id']] = [query['content'] for query in query_triple['Text']]
 	return query_dict
 
 def rank_queries(answer_dict, query_dict):
@@ -28,7 +30,7 @@ def rank_queries(answer_dict, query_dict):
 	cross_encoder_model = SBertCE('cross-encoder/ms-marco-MiniLM-L-6-v2', device=device)
 	new_query_dict = {}
 	for answer_id, answer in tqdm(answer_dict.items(), desc='Ranking Generated Queries'):
-		generated_queries = [query['content'] for query in query_dict[answer_id]['Text']]
+		generated_queries = query_dict[answer_id]
 		best = cross_encoder_model.get_best(answer, generated_queries)
 		new_query_dict[answer_id] = best
 	with open('BestQueries.json', 'w') as outfile:

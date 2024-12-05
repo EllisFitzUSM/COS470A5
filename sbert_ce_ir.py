@@ -5,6 +5,7 @@ from collections import OrderedDict
 from huggingface_hub import HfApi
 from ranx import Run
 import random
+import torch
 import math
 import os
 
@@ -43,7 +44,7 @@ class SBertCE(object):
 
 	def get_best(self, query, corpa):
 		query_corpa_pairings = [[query, doc] for doc in corpa]
-		scores = self.model.predict(query_corpa_pairings, batch_size=32, show_progress_bar=True)
+		scores = self.model.predict(query_corpa_pairings, batch_size=32, show_progress_bar=False, convert_to_tensor=True)
 		score, index = torch.topk(scores, k=1)
 		return corpa[index]
 
