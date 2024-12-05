@@ -27,7 +27,7 @@ def rank_queries(answer_dict, query_dict):
 	device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 	cross_encoder_model = SBertCE('cross-encoder/ms-marco-MiniLM-L-6-v2', device=device)
 	new_query_dict = {}
-	for answer_id, answer in answer_dict.items():
+	for answer_id, answer in tqdm(answer_dict.items(), desc='Ranking Generated Queries'):
 		generated_queries = [query['content'] for query in query_dict[answer_id]['Text']]
 		best = cross_encoder_model.get_best(answer, generated_queries)
 		new_query_dict[answer_id] = best
