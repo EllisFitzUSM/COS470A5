@@ -57,8 +57,6 @@ def llama_query2doc(topics_dict, llama_dict):
 		prompt = messages + [{'role': 'user', 'content': str(topic)}]
 		prompt = pipeline.tokenizer.apply_chat_template(prompt, tokenize=False,
 														add_generation_prompt=True)
-		prompt = torch.cat(prompt, dim=0)
-		print(len(prompt))
 		outputs = pipeline(prompt, max_new_tokens=512, num_return_sequences=1)
 		llama_dict.append({'Id': topic_id, 'Text': outputs[0]['generated_text'][-1]})
 	with open('GeneratedAnswers.json', 'w', encoding='utf-8') as outfile:
