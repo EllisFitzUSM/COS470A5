@@ -1,0 +1,54 @@
+#    Model                                    NDCG@5  NDCG@10      P@5  P@10    MAP       BPref    MRR
+---  -------------------------------------  --------  ---------  -----  ------  ------  -------  -----
+a    results\res_BM25_Cross_ft_ReRank_test     0.466  0.478ᵇ     0.452  0.310ᵇ  0.401ᵇ      nan  0.702
+b    results\res_BM25_test                     0.413  0.420      0.388  0.254   0.346       nan  0.702========================
+% Add in preamble
+\usepackage{graphicx}
+\usepackage{booktabs}
+========================
+
+
+% To change the table size, act on the resizebox argument `0.8`.
+\begin{table*}[ht]
+\centering
+\caption{
+Overall effectiveness of the models.
+The best results are highlighted in boldface.
+Superscripts denote significant differences in paired Student's t-test with $p \le 0.01$.
+}
+\resizebox{0.8\textwidth}{!}{
+\begin{tabular}{c|l|c|c|c|c|c|c|c}
+\toprule
+\textbf{\#}
+& \textbf{Model}
+& \textbf{NDCG@5}
+& \textbf{NDCG@10}
+& \textbf{P@5}
+& \textbf{P@10}
+& \textbf{MAP}
+& \textbf{BPref}
+& \textbf{MRR} \\ 
+\midrule
+a &
+results\res\_BM25\_Cross\_ft\_ReRank\_test &
+\textbf{0.466}\hphantom{$^{b}$} &
+\textbf{0.478}$^{b}$\hphantom{} &
+\textbf{0.452}\hphantom{$^{b}$} &
+\textbf{0.310}$^{b}$\hphantom{} &
+\textbf{0.401}$^{b}$\hphantom{} &
+nan\hphantom{$^{b}$} &
+\textbf{0.702}\hphantom{$^{b}$} \\
+b &
+results\res\_BM25\_test &
+0.413\hphantom{$^{a}$} &
+0.420\hphantom{$^{a}$} &
+0.388\hphantom{$^{a}$} &
+0.254\hphantom{$^{a}$} &
+0.346\hphantom{$^{a}$} &
+nan\hphantom{$^{a}$} &
+0.702\hphantom{$^{a}$} \\
+\bottomrule
+\end{tabular}
+}
+\label{tab:results}
+\end{table*}

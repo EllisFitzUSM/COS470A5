@@ -22,22 +22,22 @@ def main():
 
 	for run in runs:
 		run_dict = run.to_dict()
-		p5_run = Run.from_dict(run_dict)
+		p10_run = Run.from_dict(run_dict)
 		evaluate(qrel, run, metrics=args.metrics, return_mean=True)
 		print(run.mean_scores)
-		evaluate(qrel, p5_run, metrics='precision@5', return_mean=False)
-		df = pd.DataFrame(list(p5_run.scores['precision@5'].items()), columns=['qID', 'precision@5'])
-		df.sort_values(by=['precision@5'], ascending=False, inplace=True)
+		evaluate(qrel, p10_run, metrics='precision@10', return_mean=False)
+		df = pd.DataFrame(list(p10_run.scores['precision@10'].items()), columns=['qID', 'precision@10'])
+		df.sort_values(by=['precision@10'], ascending=False, inplace=True)
 		print(df)
 		df.plot(x='qID',
-				y='precision@5',
+				y='precision@10',
 				kind='bar',
 				title=f'Precision@5 scores for {run.name}'
 		)
 
-		plt.title(f'Precision@5 scores for {run.name}')
+		plt.title(f'Precision@10 scores for {run.name}')
 		plt.xlabel('qID')
-		plt.ylabel('Precision@5')
+		plt.ylabel('Precision@10')
 		plt.show()
 
 if __name__ == '__main__':

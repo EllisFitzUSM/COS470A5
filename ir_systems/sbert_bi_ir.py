@@ -12,12 +12,9 @@ import random
 import torch
 import os
 
-prompt = {'retrieval': 'Retrieve semantically similar text: '}
-prompt_name = 'retrieval'
-
 class SBertBI(object):
 
-	def __init__(self, model_name_or_path, device, similarity_fn: str = 'cos'):
+	def __init__(self, model_name_or_path, device, similarity_fn: str = 'cos', prompt={'retrieval': 'Retrieve semantically similar text: '}, prompt_name='retrieval'):
 		self.model_name_or_path = model_name_or_path
 		self.device = device
 		try:
@@ -59,7 +56,7 @@ class SBertBI(object):
 		score, index = torch.topk(similarity_scores, k=1)
 		return corpa[index]
 
-	def retrieve_rank(self, topics, answers):
+	def rank(self, topics, answers):
 		topic_embeddings = self.encode_id_text(topics)
 		answer_embeddings = self.encode_id_text(answers)
 		topic_embeddings_tensor = torch.tensor(np.stack(list(topic_embeddings.values())), device=self.device)

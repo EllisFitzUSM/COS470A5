@@ -14,7 +14,7 @@ import sys
 import string
 import os
 from huggingface_hub import login
-import util
+import my_util
 
 os.environ['TRANSFORMERS_CACHE'] = '/mnt/netstore1_home/'
 # os.environ['HF_HOME'] = '/mnt/netstore1_home/' # TODO: Preferred
@@ -104,7 +104,7 @@ def llama_doc2query(answers_dict, llama_dict):
 		{'role': 'assistant', 'content': "How frequently do restaurants in Europe provide complimentary drinking water upon request? When I visited Helsinki, I noticed restaurants often provided free water with orders. This included places like McDonald’s, where my friend requested tap water, and it was served without charge. Some restaurants even encouraged this practice, offering water refill stations with clean glasses or placing glass jugs of water near the soft drink area for self-service. I haven’t observed this elsewhere in Europe, though my travels are limited. Is free water for customers a common practice across Europe, or is it specific to Finland or Scandinavia?"}
 	]
 	for answer_id, answer in tqdm(list(answers_dict.items()), desc='Generating LLaMa Query From Doc', colour='blue'):
-		outputs = pipeline(messages + [{'role': 'user', 'content': util.preprocess_text(answer)}], max_new_tokens=256, num_return_sequences=3)
+		outputs = pipeline(messages + [{'role': 'user', 'content': answer}], max_new_tokens=256, num_return_sequences=3)
 		llama_dict.append({'Id': answer_id, 'Text': [output['generated_text'][-1] for output in outputs]})
 	with open('collections/LLaMa_Queries.json', 'w', encoding='utf-8') as outfile:
 		json.dump(llama_dict, outfile, indent = 4)

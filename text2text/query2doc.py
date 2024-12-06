@@ -14,7 +14,7 @@ import sys
 import string
 import os
 from huggingface_hub import login
-import util
+import my_util
 import itertools
 
 os.environ['TRANSFORMERS_CACHE'] = '/mnt/netstore1_home/'
@@ -26,7 +26,7 @@ def main():
 	argparser.add_argument('topics', type=str, help='Answers.json file to generate queries from.')
 	args = argparser.parse_args()
 
-	topics_dict = util.read_topics(args.topics)
+	topics_dict = my_util.read_topics(args.topics)
 	topics_dict = dict(itertools.islice(topics_dict.items(), 10))
 
 	llama_list = []
