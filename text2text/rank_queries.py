@@ -2,7 +2,7 @@ import argparse as ap
 import json
 from tqdm import tqdm
 from my_util import read_answers
-from ir_systems.sbert_ce_ir import SBertCE
+from sbert_ce_ir import SBertCE
 import torch
 
 

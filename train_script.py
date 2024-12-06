@@ -1,9 +1,6 @@
-from sentence_transformers.util import mine_hard_negatives
-from ir_systems.sbert_ce_ir import SBertCE
-from datasets import load_dataset
+from sbert_ce_ir import SBertCE
 from itertools import islice
 from ranx import Qrels
-from tqdm import tqdm
 import argparse
 import my_util
 import random

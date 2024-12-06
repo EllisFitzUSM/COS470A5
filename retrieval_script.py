@@ -1,13 +1,9 @@
-from ir_systems.sbert_ce_ir import SBertCE
-from ir_systems.bm25_ir import BM25
+from sbert_ce_ir import SBertCE
+from bm25_ir import BM25
 from ranx import Qrels
-import pyterrier as pt
-from tqdm import tqdm
 from ranx import Run
-import pandas as pd
 import argparse
 import my_util
-import json
 import os
 
 results_dir='.'
