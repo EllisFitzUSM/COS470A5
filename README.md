@@ -24,7 +24,7 @@ There are three files to run:
 - `evaluate_script.py`
 
 Only the first two will be covered here, as evaluation is more self explanatory.
-Both **require** two (2) positional parameters, the rest are *"optional"*
+Retrieval and Training **require** two (2) positional parameters, the rest are *"optional"*
 
 ```
 Answers.json topics_1.json ... topics_N.json
