@@ -1,7 +1,7 @@
-from ranx import Run, Qrels, evaluate, fuse, compare
-import argparse
-import pandas as pd
+from ranx import Run, Qrels, evaluate, compare
 import matplotlib.pyplot as plt
+import pandas as pd
+import argparse
 import os
 
 evaluation_folder = r'.\evaluate_results'

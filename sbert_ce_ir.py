@@ -1,7 +1,6 @@
 from sentence_transformers.cross_encoder.evaluation import CERerankingEvaluator # I think I want the reranker
 from sentence_transformers import CrossEncoder, InputExample
 from torch.utils.data import DataLoader
-from collections import OrderedDict
 from huggingface_hub import HfApi
 from tqdm import tqdm
 from ranx import Run

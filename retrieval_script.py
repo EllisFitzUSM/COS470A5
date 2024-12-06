@@ -39,7 +39,8 @@ def retrieve(bm25, cross, answers_dict, topics_paths, test_qrel, ft_cross):
         cross_rankings = cross.rerank(bm25_rankings, test_topics, answers_dict, 128)
         save_run(bm25_rankings, f'res_BM25_test')
         save_run(cross_rankings, f'res_BM25_Cross{"_ft" if ft_cross is not None else ""}_ReRank_test')
-        topics_paths = topics_paths[1:]
+        if test_qrel in topics_paths:
+            topics_paths = topics_paths[1:]
         skip = 2
     for index, topic_path in enumerate(topics_paths):
         topics_dict = my_util.read_topics(topic_path)
