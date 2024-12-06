@@ -2,6 +2,12 @@
 
 ### Author: Ellis Fitzgerald
 
+
+~| Model                               |     NDCG@5 | NDCG@10   |   P@5 | P@10   | MAP     |  BPref  |  MRR
+| :-------- | :-------- | :-------- |:-------- |:-------- |:-------- |:-------- |:-------- |:-------- |
+a    | results\res_BM25_Cross_ft_ReRank_test  |   0.466 | 0.478ᵇ   |  0.452 | 0.310ᵇ | 0.401ᵇ   |   nan | 0.702
+b    | results\res_BM25_test                  |   0.413 | 0.420    | 0.388  | 0.254  | 0.346    |   nan | 0.702
+
 This Information-Retrieval repository uses PyTerrier's (wrapper for Terrier) BM25-Okapi implementation, re-ranked by an MS-MARCO trained Cross-Encoder from Sentence-Transformers (SBERT). The Cross-Encoder has been fine-tuned with Topic-Answer pairings, from `topics_1.json` and QRELs for validation seen in `qrel_split_e4`
 
 

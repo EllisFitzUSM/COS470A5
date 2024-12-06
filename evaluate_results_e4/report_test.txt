@@ -1,7 +1,8 @@
 #    Model                                    NDCG@5  NDCG@10      P@5  P@10    MAP       BPref    MRR
 ---  -------------------------------------  --------  ---------  -----  ------  ------  -------  -----
 a    results\res_BM25_Cross_ft_ReRank_test     0.466  0.478ᵇ     0.452  0.310ᵇ  0.401ᵇ      nan  0.702
-b    results\res_BM25_test                     0.413  0.420      0.388  0.254   0.346       nan  0.702========================
+b    results\res_BM25_test                     0.413  0.420      0.388  0.254   0.346       nan  0.702
+========================
 % Add in preamble
 \usepackage{graphicx}
 \usepackage{booktabs}
